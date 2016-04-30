@@ -92,5 +92,22 @@ public class GUIKontroler {
 	public static List<Kurs> vratiSveKurseve() {
 		return kursevi;
 	}
+	public static void greskaKodBrisanja() {
+		JOptionPane.showMessageDialog(null, "Morate izabrati red sa kursom za brisanje!",
+				"Greska prilikom brisanja", JOptionPane.ERROR_MESSAGE);
+	}
+	public static void izbrisiKurs(Kurs k) {
+		try {
+			int index = kursevi.indexOf(k);
+			kursevi.remove(index);
+			glavniProzor.osveziTabelu();
+			glavniProzor.getTextAreaStatus().append("Izbrisan je red sa indeksom: " + index + "." + "\n");
+			JOptionPane.showMessageDialog(null, "Uspesno ste izbrisali kurs.",
+					"Uspesno brisanje", JOptionPane.INFORMATION_MESSAGE);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Doslo je do greske prilikom brisanja.",
+				"Greska prilikom brisanja", JOptionPane.ERROR_MESSAGE);
+		}
+	}
 	
 }

@@ -33,6 +33,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.table.DefaultTableModel;
 
+import menjacnica.Kurs;
+
 public class MenjacnicaGUI extends JFrame {
 
 	private JPanel contentPane;
@@ -120,6 +122,22 @@ public class MenjacnicaGUI extends JFrame {
 	private JButton getBtnIzbrisiKurs() {
 		if (btnIzbrisiKurs == null) {
 			btnIzbrisiKurs = new JButton("Izbrisi kurs");
+			btnIzbrisiKurs.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					int index = table.getSelectedRow();
+					if(index == -1){
+						GUIKontroler.greskaKodBrisanja();
+					}else{
+						int opcija = JOptionPane.showConfirmDialog(getContentPane(), "Da li ste sigurni da zelite da obrisete selektovani red?"
+							, "Upozorenje za brisanje", JOptionPane.YES_NO_CANCEL_OPTION);
+						if(opcija == JOptionPane.YES_OPTION){
+						TableModelMenjacnica model = (TableModelMenjacnica) table.getModel();
+						Kurs k = model.vratiKurs(index);
+						GUIKontroler.izbrisiKurs(k);
+						}
+					}
+				}
+			});
 			btnIzbrisiKurs.setPreferredSize(new Dimension(115, 25));
 		}
 		return btnIzbrisiKurs;
