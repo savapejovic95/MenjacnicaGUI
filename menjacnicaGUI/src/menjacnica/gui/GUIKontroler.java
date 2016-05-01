@@ -13,6 +13,7 @@ import menjacnica.Kurs;
 public class GUIKontroler {
 	private static MenjacnicaGUI glavniProzor;
 	private static DodajKursGUI dodajKursProzor;
+	private static IzvrsiZamenuGUI zamenaProzor;
 	private static LinkedList<Kurs> kursevi;
 	
 	public static void main(String[] args) {
@@ -23,6 +24,7 @@ public class GUIKontroler {
 					glavniProzor.setVisible(true);
 					glavniProzor.setLocationRelativeTo(null);
 					dodajKursProzor = new DodajKursGUI();
+					zamenaProzor = new IzvrsiZamenuGUI();
 					kursevi = new LinkedList<Kurs>();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -70,10 +72,14 @@ public class GUIKontroler {
 		String kupovni = dodajKursProzor.getTxtKupovniKurs().getText();
 		String srednji = dodajKursProzor.getTxtSrednjiKurs().getText();
 		String skraceniNaziv = dodajKursProzor.getTxtSkraceniNaziv().getText();
-		k.setKupovni(Integer.parseInt(kupovni));
+		if(sifra.isEmpty() || naziv.isEmpty() || prodajni.isEmpty() || kupovni.isEmpty() || srednji.isEmpty() || skraceniNaziv.isEmpty()){
+			JOptionPane.showMessageDialog(null, "Niste pravilno uneli kurs", "Greska", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		k.setKupovni(Double.parseDouble(kupovni));
 		k.setNaziv(naziv);
-		k.setProdajni(Integer.parseInt(prodajni));
-		k.setSrednji(Integer.parseInt(srednji));
+		k.setProdajni(Double.parseDouble(prodajni));
+		k.setSrednji(Double.parseDouble(srednji));
 		k.setSkraceniNaziv(skraceniNaziv);
 		k.setSifra(sifra);
 		kursevi.add(k);
@@ -108,6 +114,17 @@ public class GUIKontroler {
 			JOptionPane.showMessageDialog(null, "Doslo je do greske prilikom brisanja.",
 				"Greska prilikom brisanja", JOptionPane.ERROR_MESSAGE);
 		}
+	}
+	public static void zatvoriZamenaProzor() {
+		zamenaProzor.dispose();
+	}
+	public static void prikaziIzvrsiZamenuProzor() {
+		zamenaProzor.setVisible(true);
+		zamenaProzor.setLocationRelativeTo(null);
+	}
+	public static void dodajZamenuUStatus(String valuta, double iznos, String transakcija) {
+		String s = "Izvrsena zamena:" + "\t" + "Valuta: " + valuta + "\t" + "Iznos: "+ iznos + "\t" + "Vrsta transakcije: " + transakcija + "\n";
+		glavniProzor.getTextAreaStatus().append(s);
 	}
 	
 }

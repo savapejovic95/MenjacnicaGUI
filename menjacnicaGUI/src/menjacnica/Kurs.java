@@ -4,9 +4,9 @@ public class Kurs {
 	
 	private String sifra;
 	private String naziv;
-	private int prodajni;
-	private int kupovni;
-	private int srednji;
+	private double prodajni;
+	private double kupovni;
+	private double srednji;
 	private String skraceniNaziv;
 	
 	public String getSifra() {
@@ -21,22 +21,22 @@ public class Kurs {
 	public void setNaziv(String naziv) {
 		this.naziv = naziv;
 	}
-	public int getProdajni() {
+	public double getProdajni() {
 		return prodajni;
 	}
-	public void setProdajni(int prodajni) {
+	public void setProdajni(double prodajni) {
 		this.prodajni = prodajni;
 	}
-	public int getKupovni() {
+	public double getKupovni() {
 		return kupovni;
 	}
-	public void setKupovni(int kupovni) {
+	public void setKupovni(double kupovni) {
 		this.kupovni = kupovni;
 	}
-	public int getSrednji() {
+	public double getSrednji() {
 		return srednji;
 	}
-	public void setSrednji(int srednji) {
+	public void setSrednji(double srednji) {
 		this.srednji = srednji;
 	}
 	public String getSkraceniNaziv() {
