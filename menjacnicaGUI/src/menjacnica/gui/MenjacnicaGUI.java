@@ -34,6 +34,10 @@ import java.awt.event.WindowEvent;
 import javax.swing.table.DefaultTableModel;
 
 import menjacnica.Kurs;
+import javax.swing.JPopupMenu;
+import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MenjacnicaGUI extends JFrame {
 
@@ -54,6 +58,10 @@ public class MenjacnicaGUI extends JFrame {
 	private JTextArea textAreaStatus;
 	private JScrollPane scrollPane;
 	private JTable table;
+	private JPopupMenu popupMenu;
+	private JMenuItem mntmDodajKurs;
+	private JMenuItem mntmIzbrisiKurs;
+	private JMenuItem mntmIzvrsiZamenu;
 
 	/**
 	 * Launch the application.
@@ -256,6 +264,7 @@ public class MenjacnicaGUI extends JFrame {
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
+			addPopup(scrollPane, getPopupMenu_1());
 			scrollPane.setViewportView(getTable());
 		}
 		return scrollPane;
@@ -271,5 +280,75 @@ public class MenjacnicaGUI extends JFrame {
 	public void osveziTabelu() {
 		TableModelMenjacnica model = (TableModelMenjacnica) table.getModel();
 		model.ucitajKurseve(GUIKontroler.vratiSveKurseve());
+	}
+	private static void addPopup(Component component, final JPopupMenu popup) {
+		component.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			public void mouseReleased(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			private void showMenu(MouseEvent e) {
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
+	}
+	private JPopupMenu getPopupMenu_1() {
+		if (popupMenu == null) {
+			popupMenu = new JPopupMenu();
+			popupMenu.add(getMntmDodajKurs());
+			popupMenu.add(getMntmIzbrisiKurs());
+			popupMenu.add(getMntmIzvrsiZamenu());
+		}
+		return popupMenu;
+	}
+	private JMenuItem getMntmDodajKurs() {
+		if (mntmDodajKurs == null) {
+			mntmDodajKurs = new JMenuItem("Dodaj kurs");
+			mntmDodajKurs.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					GUIKontroler.prikaziDodajKursProzor();
+				}
+			});
+		}
+		return mntmDodajKurs;
+	}
+	private JMenuItem getMntmIzbrisiKurs() {
+		if (mntmIzbrisiKurs == null) {
+			mntmIzbrisiKurs = new JMenuItem("Izbrisi kurs");
+			mntmIzbrisiKurs.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					int index = table.getSelectedRow();
+					if(index == -1){
+						GUIKontroler.greskaKodBrisanja();
+					}else{
+						int opcija = JOptionPane.showConfirmDialog(getContentPane(), "Da li ste sigurni da zelite da obrisete selektovani red?"
+							, "Upozorenje za brisanje", JOptionPane.YES_NO_CANCEL_OPTION);
+						if(opcija == JOptionPane.YES_OPTION){
+						TableModelMenjacnica model = (TableModelMenjacnica) table.getModel();
+						Kurs k = model.vratiKurs(index);
+						GUIKontroler.izbrisiKurs(k);
+						}
+					}
+				}
+			});
+		}
+		return mntmIzbrisiKurs;
+	}
+	private JMenuItem getMntmIzvrsiZamenu() {
+		if (mntmIzvrsiZamenu == null) {
+			mntmIzvrsiZamenu = new JMenuItem("Izvrsi zamenu");
+			mntmIzvrsiZamenu.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					GUIKontroler.prikaziIzvrsiZamenuProzor();
+				}
+			});
+		}
+		return mntmIzvrsiZamenu;
 	}
 }

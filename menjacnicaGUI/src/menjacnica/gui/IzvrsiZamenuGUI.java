@@ -198,7 +198,12 @@ public class IzvrsiZamenuGUI extends JFrame {
 						if(rdbtnKupovina.isSelected())
 							transakcija = "kupovina";
 						else
-							transakcija = "prodaja";
+							if(rdbtnProdaja.isSelected())
+								transakcija = "prodaja";
+							else{
+								JOptionPane.showMessageDialog(null, "Niste izabrali vrstu transakcije!", "Greska!", JOptionPane.INFORMATION_MESSAGE);
+								return;
+							}
 						
 						GUIKontroler.dodajZamenuUStatus(valuta, iznos, transakcija);
 					} catch (NumberFormatException e1) {
